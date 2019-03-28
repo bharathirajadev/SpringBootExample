@@ -5,15 +5,17 @@ import java.util.Date;
 public class Transaction {
 	private Integer transId;
 	private Date timestamp;
+	private String formatedDate;
 	
 	public Transaction() {
 	
 	}
 	
-	public Transaction(Integer transId, Date timestamp) {
+	public Transaction(Integer transId, Date timestamp, String formatedDate) {
 		super();
 		this.transId = transId;
 		this.timestamp = timestamp;
+		this.formatedDate = formatedDate;
 	}
 	
 	public Integer getTransId() {
@@ -28,7 +30,13 @@ public class Transaction {
 	public void setTimestamp(Date timeStamp) {
 		this.timestamp = timeStamp;
 	}
-	
+	public String getFormatedDate() {
+		return formatedDate;
+	}
+	public void setFormatedDate(String formatedDate) {
+		this.formatedDate = formatedDate;
+	}
+
 	@Override
     public boolean equals(Object obj) {
 	    // checking if both the object references are  

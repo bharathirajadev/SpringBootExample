@@ -19,7 +19,19 @@ Delete: to delete all transactions*/
 
 //https://stackoverflow.com/questions/53172851/thread-safe-list-for-all-crud-operations
 //https://codereview.stackexchange.com/questions/173545/rest-api-for-realtime-statistics-of-last-60-seconds
-		
+
+/*
+ * API End Points
+ * POST: http://localhost:8080/add
+ * GET: http://localhost:8080/showAll
+ * GET:http://localhost:8080/getLatest
+ * GET:http://localhost:8080/delete 
+ * Sample Input for add method
+ *  {
+		"transId":8
+	}
+ */
+
 @RestController
 @ComponentScan("com.example.*")
 public class MainController {
@@ -29,15 +41,19 @@ public class MainController {
 		
 	@RequestMapping("/")
 	public String index() {
-		return "welcome";
+		return "Welcome !";
 	}
 	
 	@RequestMapping(value="/add" , method = RequestMethod.POST)
     public synchronized String create(@RequestBody Transaction trans) {
 		String responseMsg="";
 		try {
-			Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-			trans.setTimestamp(timestamp);
+			/*Timestamp timestamp = new Timestamp(System.currentTimeMillis()); //this also can be used but this class from sql
+			trans.setTimestamp(timestamp);*/
+			
+			Calendar currentDate= Calendar.getInstance();
+			trans.setTimestamp(currentDate.getTime());
+			trans.setFormatedDate(currentDate.getTime().toLocaleString());
 			
 			if(!transactions.contains(trans)) {
 				transactions.add(trans);
@@ -61,7 +77,7 @@ public class MainController {
 		now.add(Calendar.MINUTE, -1);
 		
         List<Transaction> filteredTransactions = transactions.stream() 
-        						.filter(p -> p.getTimestamp().after(now.getTime()))
+        						.filter(p -> p.getTimestamp().after(now.getTime()))  //Records needed after the current time - 1
         						.collect(Collectors.toList());
         removeOldTransactions(filteredTransactions);
         return filteredTransactions;
