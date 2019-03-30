@@ -77,7 +77,7 @@ public class MainController {
 		now.add(Calendar.MINUTE, -1);
 		
         List<Transaction> filteredTransactions = transactions.stream() 
-        						.filter(p -> p.getTimestamp().after(now.getTime()))  //Records needed after the current time - 1
+        						.filter(p -> p.getTimestamp().after(now.getTime())) //Records needed after the current time - 1 //Ipo irukara time vida after records
         						.collect(Collectors.toList());
         removeOldTransactions(filteredTransactions);
         return filteredTransactions;
